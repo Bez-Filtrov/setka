@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ES2021", /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
+    "jsx": "react", /* Specify what JSX code is generated. */
+    "jsxFactory": "Html.createElement", /* Specify the JSX factory function used when targeting React JSX emit, e.g. 'React.createElement' or 'h'. */
+    "jsxFragmentFactory": "Html.Fragment", /* Specify the JSX Fragment reference used for fragments when targeting React JSX emit e.g. 'React.Fragment' or 'Fragment'. */
+    "module": "ES2022", /* Specify what module code is generated. */
+    "moduleResolution": "node", /* Specify how TypeScript looks up a file from a given module specifier. */
+    "types": [
+      "bun-types"
+    ],
+    "forceConsistentCasingInFileNames": true, /* Ensure that casing is correct in imports. */
+    "strict": true, /* Enable all strict type-checking options. */
+    "skipLibCheck": true /* Skip type checking all .d.ts files. */
+  }
+}
