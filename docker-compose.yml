@@ -1,0 +1,57 @@
+services:
+  mask:
+    build:
+      context: mask
+      network: host
+    container_name: mask
+    restart: unless-stopped
+  cert-init:
+    build: 
+      context: cert-init
+      network: host
+    container_name: cert-init
+    volumes:
+      - certs:/certs
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    volumes:
+      - certs:/var/www/certs
+      - acme:/var/www/acme
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - mask
+      - cert-init
+    ports:
+      - "80:80"
+    restart: unless-stopped
+  acme-sh:
+    build:
+      context: acme.sh
+      network: host
+    container_name: acme.sh
+    command: daemon
+    volumes:
+      - certs:/var/www/certs
+      - acme:/var/www/acme
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+    depends_on:
+      - nginx
+  v2fly:
+    build:
+      context: v2fly
+      network: host
+    container_name: v2fly-server
+    env_file:
+      - .env
+    volumes:
+      - ./v2fly/config.json.tmpl:/etc/v2ray/config.json.tmpl
+    ports:
+      - "443:443"
+    depends_on:
+      - nginx
+    restart: unless-stopped
+volumes:
+  certs:
+  acme:

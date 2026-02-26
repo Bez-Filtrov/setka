@@ -1,0 +1,69 @@
+{
+	"inbounds": [
+		{
+			"protocol": "socks",
+			"settings": {
+				"udpEnabled": true,
+				"address": "0.0.0.0",
+				"packetEncoding": "Packet"
+			},
+			"port": 10400,
+			"listen": "0.0.0.0",
+			"tag": "socks"
+		}
+	],
+	"outbounds": [
+		{
+			"protocol": "trojan",
+			"settings": {
+				"address": "${MASK_DOMAIN}",
+				"port": 443,
+				"password": "${UUID}"
+			},
+			"streamSettings": {
+				"transport": "tlsmirror",
+				"transportSettings": {
+					"primaryKey": "${PRIMARY_KEY}",
+					"forwardTag": "direct",
+					"carrierConnectionTag": "tlsmirror_ingress",
+					"embeddedTrafficGenerator": {
+						"steps": [
+							{
+								"host": "${MASK_DOMAIN}",
+								"path": "/rJEJdpg3YQZXfh73db8qkAP1Rq0PEnf0",
+								"method": "GET",
+								"connectionReady": true,
+								"connectionRecallExit": true,
+								"nextStep": [
+									{
+										"weight": 1,
+										"gotoLocation": 0
+									}
+								],
+								"waitTime": {
+									"baseNanoseconds": 200000000,
+									"uniformRandomMultiplierNanoseconds": 200000000
+								}
+							}
+						]
+					},
+					"sequenceWatermarkingEnabled": true
+				},
+				"security": "tls",
+				"securitySettings": {
+					"serverName": "${MASK_DOMAIN}",
+					"allowInsecure": false,
+					"nextProtocol": [
+						"h2",
+						"http/1.1"
+					]
+				}
+			},
+			"tag": "proxy"
+		},
+		{
+			"protocol": "freedom",
+			"tag": "direct"
+		}
+	]
+}

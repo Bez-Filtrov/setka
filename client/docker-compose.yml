@@ -1,0 +1,13 @@
+services:
+  v2fly:
+    build:
+      context: ../v2fly
+      network: host
+    container_name: v2fly-client
+    env_file:
+      - ../.env
+    volumes:
+      - ./config.json.tmpl:/etc/v2ray/config.json.tmpl
+    ports:
+      - "10400:10400"
+    restart: unless-stopped

@@ -26,7 +26,10 @@ const render = async (request: Request) => {
 const app = new Elysia()
   .use(html())
   .get("*", async ({ request }) => render(request))
-  .listen(3000);
+  .listen({
+    port: 3000,
+    hostname: "0.0.0.0",
+  });
 
 console.log(
   `Application is running at ${app.server?.hostname}:${app.server?.port}`

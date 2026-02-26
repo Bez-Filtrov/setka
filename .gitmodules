@@ -1,0 +1,3 @@
+[submodule "v2fly/src"]
+	path = v2fly/src
+	url = https://github.com/v2fly/v2ray-core.git
